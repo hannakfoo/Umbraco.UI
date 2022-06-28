@@ -1,6 +1,7 @@
 import { defineElement } from '@umbraco-ui/uui-base/lib/registration';
 import { css, html, LitElement } from 'lit';
 import { queryAll, queryAssignedElements } from 'lit/decorators.js';
+import { UUIModalElement } from '@umbraco-ui/uui-modal/lib';
 
 /**
  * @element uui-modal-container
@@ -15,27 +16,35 @@ export class UUIModalContainerElement extends LitElement {
   ];
 
   @queryAssignedElements({
-    selector: 'dialog',
+    selector: 'uui-modal:not(.closing)',
     flatten: true,
   })
-  dialogs?: HTMLDialogElement[];
+  modals?: UUIModalElement[];
 
-  private _onSlotchange(e: Event) {
-    if (!this.dialogs) return;
+  connectedCallback(): void {
+    super.connectedCallback();
 
-    const style = document.createElement('style');
-    style.textContent = `
-    dialog:not(:last-child)::backdrop {
-      background-color: transparent;
-    }
-    `;
-    this.dialogs[this.dialogs?.length - 1].appendChild(style); //TODO: Please find an alternative to this
-    this.dialogs[this.dialogs?.length - 1].showModal();
-    console.log('hallo', this.dialogs[0]);
+    this.addEventListener('closing', this._onClosing);
+  }
+
+  private _onClosing(e: Event) {
+    if (!this.modals) return;
+    this.modals[this.modals.length - 1]?.toggleAttribute('front', true);
+  }
+
+  private _onSlotChange(e: Event) {
+    if (!this.modals) return;
+    this.modals.forEach((modal, i) => {
+      if (i === this.modals!.length - 1) {
+        modal.front = true;
+      } else {
+        modal.front = false;
+      }
+    });
   }
 
   render() {
-    return html`<slot @slotchange=${this._onSlotchange}></slot>`;
+    return html`<slot @slotchange=${this._onSlotChange}></slot>`;
   }
 }
 
