@@ -24,27 +24,20 @@ export class UUIModalContainerElement extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    this.addEventListener('closing', this._onClosing);
+    this.addEventListener('open', this._onModalOpen);
+    this.addEventListener('closing', this._onModalClose);
   }
 
-  private _onClosing(e: Event) {
-    if (!this.modals) return;
-    this.modals[this.modals.length - 1]?.toggleAttribute('front', true);
+  private _onModalOpen(event: Event): void {
+    this.modals![this.modals!.length - 2]?.hide();
   }
 
-  private _onSlotChange(e: Event) {
-    if (!this.modals) return;
-    this.modals.forEach((modal, i) => {
-      if (i === this.modals!.length - 1) {
-        modal.front = true;
-      } else {
-        modal.front = false;
-      }
-    });
+  private _onModalClose(event: Event): void {
+    this.modals![this.modals!.length - 1]?.show();
   }
 
   render() {
-    return html`<slot @slotchange=${this._onSlotChange}></slot>`;
+    return html`<slot></slot>`;
   }
 }
 

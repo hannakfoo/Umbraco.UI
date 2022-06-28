@@ -2,6 +2,15 @@ import { defineElement } from '@umbraco-ui/uui-base/lib/registration';
 import { css, html, LitElement } from 'lit';
 import { property, query } from 'lit/decorators.js';
 
+const _keyframes = [{ opacity: '0' }, { opacity: '1' }];
+
+const _options: KeyframeAnimationOptions = {
+  duration: 250,
+  fill: 'both',
+  easing: 'linear',
+  pseudoElement: '::backdrop',
+};
+
 /**
  * @element uui-modal
  */
@@ -24,32 +33,8 @@ export class UUIModalElement extends LitElement {
       }
 
       dialog::backdrop {
-        background-color: rgba(0, 0, 0, 0.25);
-      }
-
-      :host([front]) dialog::backdrop {
-        animation: 250ms fadeIn forwards linear;
-      }
-      :host(:not([front])) dialog::backdrop {
-        animation: 250ms fadeOut forwards linear;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      @keyframes fadeOut {
-        from {
-          opacity: 1;
-        }
-        to {
-          opacity: 0;
-        }
+        opacity: 0;
+        background-color: rgba(0, 0, 0, 0.5);
       }
     `,
   ];
@@ -60,8 +45,7 @@ export class UUIModalElement extends LitElement {
   @property({ type: String })
   headline = '';
 
-  @property({ type: Boolean, attribute: 'front', reflect: true })
-  front = false;
+  private animation!: Animation;
 
   protected firstUpdated(
     _changedProperties: Map<string | number | symbol, unknown>
@@ -69,21 +53,41 @@ export class UUIModalElement extends LitElement {
     super.firstUpdated(_changedProperties);
 
     this.dialog.showModal();
+    this.animation = this.dialog.animate(_keyframes, _options);
+    this.animation.finished.then(() => {
+      this.animation.pause();
+    });
+    this.show();
+    this.dispatchEvent(new CustomEvent('open', { bubbles: true }));
   }
 
-  public close(event: MouseEvent) {
-    event.preventDefault();
-    event.stopImmediatePropagation();
+  public show() {
+    if (!this.animation) return;
+
+    console.log('show');
+
+    this.animation.playbackRate = 1;
+    this.animation.play();
+  }
+
+  private close(e: Event) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
     this.classList.add('closing');
-    this.front = false;
-    this.dispatchEvent(
-      new CustomEvent('closing', { bubbles: true, composed: true })
-    );
+    this.dispatchEvent(new CustomEvent('closing', { bubbles: true }));
+
+    this.hide();
 
     setTimeout(() => {
-      this.dialog.close();
       this.remove();
-    }, 250); // has to be the same as the fade animation duration
+    }, 250);
+  }
+
+  public hide() {
+    if (!this.animation || this.animation.currentTime === 0) return;
+
+    this.animation.playbackRate = -1;
+    this.animation.play();
   }
 
   render() {

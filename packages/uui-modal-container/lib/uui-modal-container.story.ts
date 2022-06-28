@@ -28,16 +28,13 @@ export const Overview: Story = props => {
     modal.addEventListener('click', generateDialog.bind(this));
     document.getElementById('modal-container')?.appendChild(modal);
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       const modalDialog = modal.shadowRoot?.querySelector(
         'dialog'
       ) as HTMLDialogElement;
       modalDialog.style.left = `${(Math.random() - 0.5) * 600}px`;
       modalDialog.style.top = `${(Math.random() - 0.5) * 200}px`;
-      // modal.style.opacity = '1';
-
-      console.log('modalDialog', modalDialog);
-    }, 0);
+    });
   };
 
   return html`<uui-modal-container id="modal-container">
