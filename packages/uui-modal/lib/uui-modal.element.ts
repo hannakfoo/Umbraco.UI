@@ -2,15 +2,6 @@ import { defineElement } from '@umbraco-ui/uui-base/lib/registration';
 import { css, html, LitElement } from 'lit';
 import { property, query } from 'lit/decorators.js';
 
-const _keyframes = [{ opacity: '0' }, { opacity: '1' }];
-
-const _options: KeyframeAnimationOptions = {
-  duration: 250,
-  fill: 'both',
-  easing: 'linear',
-  pseudoElement: '::backdrop',
-};
-
 /**
  * @element uui-modal
  */
@@ -32,9 +23,28 @@ export class UUIModalElement extends LitElement {
         overflow: visible;
       }
 
+      uui-dialog:after {
+        content: '';
+        display: block;
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        pointer-events: none;
+        background-color: rgba(0, 0, 0, 0.25);
+        transition: opacity 250ms linear;
+      }
+
+      :host([fade]) uui-dialog:after {
+        opacity: 1;
+      }
+
+      uui-dialog {
+        overflow: hidden;
+      }
+
       dialog::backdrop {
         opacity: 0;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.25);
       }
     `,
   ];
@@ -46,6 +56,13 @@ export class UUIModalElement extends LitElement {
   headline = '';
 
   private animation!: Animation;
+  private _keyframes = [{ opacity: '0' }, { opacity: '1' }];
+  private _options: KeyframeAnimationOptions = {
+    duration: 250,
+    fill: 'both',
+    easing: 'linear',
+    pseudoElement: '::backdrop',
+  };
 
   protected firstUpdated(
     _changedProperties: Map<string | number | symbol, unknown>
@@ -53,20 +70,27 @@ export class UUIModalElement extends LitElement {
     super.firstUpdated(_changedProperties);
 
     this.dialog.showModal();
-    this.animation = this.dialog.animate(_keyframes, _options);
-    this.animation.finished.then(() => {
-      this.animation.pause();
+    this.dialog.addEventListener('cancel', event => {
+      event.preventDefault();
+      this.close(event);
     });
-    this.show();
+
     this.dispatchEvent(new CustomEvent('open', { bubbles: true }));
   }
 
-  public show() {
+  public showBackdrop() {
+    if (this.animation) return;
+
+    this.animation = this.dialog.animate(this._keyframes, this._options);
+    this.animation.finished.then(() => {
+      this.animation.pause();
+    });
+  }
+
+  public hideBackdrop() {
     if (!this.animation) return;
 
-    console.log('show');
-
-    this.animation.playbackRate = 1;
+    this.animation.playbackRate = -1;
     this.animation.play();
   }
 
@@ -74,20 +98,13 @@ export class UUIModalElement extends LitElement {
     e.preventDefault();
     e.stopImmediatePropagation();
     this.classList.add('closing');
+    this.hideBackdrop();
     this.dispatchEvent(new CustomEvent('closing', { bubbles: true }));
 
-    this.hide();
-
     setTimeout(() => {
+      this.dialog.close();
       this.remove();
     }, 250);
-  }
-
-  public hide() {
-    if (!this.animation || this.animation.currentTime === 0) return;
-
-    this.animation.playbackRate = -1;
-    this.animation.play();
   }
 
   render() {

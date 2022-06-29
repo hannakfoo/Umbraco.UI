@@ -28,16 +28,36 @@ export class UUIModalContainerElement extends LitElement {
     this.addEventListener('closing', this._onModalClose);
   }
 
-  private _onModalOpen(event: Event): void {
-    this.modals![this.modals!.length - 2]?.hide();
+  private _onModalOpen(event: Event) {
+    const modal = event.target as UUIModalElement;
+    const index = this.modals!.indexOf(modal);
+    if (index === 0) {
+      modal.showBackdrop();
+    }
   }
 
-  private _onModalClose(event: Event): void {
-    this.modals![this.modals!.length - 1]?.show();
+  private _onModalClose(event: Event) {
+    const modal = event.target as UUIModalElement;
+    modal?.toggleAttribute('backdrop', false);
+    this._onSlotChange(event);
+  }
+
+  private _onSlotChange(event: Event): void {
+    if (!this.modals) return;
+
+    this.modals[0]?.toggleAttribute('backdrop', true);
+
+    this.modals.forEach((modal, index) => {
+      if (index === this.modals!.length - 1) {
+        modal.toggleAttribute('fade', false);
+      } else {
+        modal.toggleAttribute('fade', true);
+      }
+    });
   }
 
   render() {
-    return html`<slot></slot>`;
+    return html`<slot @slotchange=${this._onSlotChange}></slot>`;
   }
 }
 
