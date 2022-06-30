@@ -73,6 +73,9 @@ export class UUIModalSidebarElement extends UUIModalElement {
   @property({ type: Boolean, attribute: 'closing', reflect: true })
   closing = false;
 
+  private _hideTimeout: number | null = null;
+  private _animation: Animation | null = null;
+
   protected firstUpdated(
     _changedProperties: Map<string | number | symbol, unknown>
   ): void {
@@ -81,7 +84,30 @@ export class UUIModalSidebarElement extends UUIModalElement {
     this.push('100vw', '0');
   }
 
-  push(from: string, to: string) {
+  public hide() {
+    if (this._hideTimeout) return;
+
+    this._hideTimeout = setTimeout(() => {
+      this.style.display = 'none';
+      this._hideTimeout = null;
+    }, 250) as unknown as number; //TODO: fix type
+  }
+
+  public show() {
+    if (this._hideTimeout) {
+      clearTimeout(this._hideTimeout);
+    }
+    this.style.display = '';
+  }
+
+  private push(from: string, to: string) {
+    if (this._animation) {
+      const transform = window.getComputedStyle(this.dialog).transform;
+      const matrix = new DOMMatrix(transform);
+
+      from = matrix.m41 + 'px'; // Get the translateX value
+      this._animation.cancel();
+    }
     const keyframes = [
       { transform: `translateX(${from})` },
       { transform: `translateX(${to})` },
@@ -93,11 +119,12 @@ export class UUIModalSidebarElement extends UUIModalElement {
     };
 
     return new Promise<void>(resolve => {
-      const animation = this.dialog.animate(keyframes, options);
-      animation.finished.then(() => {
-        animation.cancel();
+      this._animation = this.dialog.animate(keyframes, options);
+      this._animation.onfinish = () => {
+        this._animation?.cancel();
         resolve();
-      });
+        this._animation = null;
+      };
     });
   }
 
