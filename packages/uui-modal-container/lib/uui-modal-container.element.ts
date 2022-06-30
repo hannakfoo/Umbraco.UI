@@ -71,10 +71,12 @@ export class UUIModalContainerElement extends LitElement {
 
       const layer = this.sidebars!.length - 1 - i;
 
-      if (layer === 4) {
+      if (layer === 4 && i !== 0) {
+        // The first layer has the backdrop and should always be visible so there is no need to show it
         sidebar.show();
       }
-      if (layer === 5) {
+      if (layer === 5 && i !== 0) {
+        // The first layer has the backdrop and should always be visible
         sidebar.hide();
       }
     });

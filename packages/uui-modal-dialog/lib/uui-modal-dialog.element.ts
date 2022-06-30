@@ -11,8 +11,11 @@ export class UUIModalDialogElement extends UUIModalElement {
   static styles = [
     ...UUIModalElement.styles,
     css`
-      :host {
-        /* Styles goes here */
+      :host([closing]),
+      :host([closing]) dialog {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
       }
     `,
   ];

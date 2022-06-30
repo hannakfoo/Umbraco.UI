@@ -19,6 +19,14 @@ export default {
 };
 
 export const Overview: Story = props => {
+  const generateModal = (event: MouseEvent) => {
+    if (event.shiftKey) {
+      generateDialog();
+    } else {
+      generateSidebar();
+    }
+  };
+
   const generateDialog = () => {
     const modal = new UUIModalDialogElement();
     modal.headline = 'Headline here';
@@ -26,7 +34,7 @@ export const Overview: Story = props => {
     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Numquam molestias voluptatibus vero doloribus, quam nesciunt, non porro, rem dolor nostrum soluta adipisci veritatis dignissimos veniam debitis repudiandae possimus maxime dolorem?</p>
     `;
 
-    modal.addEventListener('click', generateDialog.bind(this));
+    modal.addEventListener('click', generateModal.bind(this));
     document.getElementById('modal-container')?.appendChild(modal);
 
     requestAnimationFrame(() => {
@@ -44,12 +52,25 @@ export const Overview: Story = props => {
     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Numquam molestias voluptatibus vero doloribus, quam nesciunt, non porro, rem dolor nostrum soluta adipisci veritatis dignissimos veniam debitis repudiandae possimus maxime dolorem?</p>
     `;
 
-    modal.addEventListener('click', generateSidebar.bind(this));
+    modal.addEventListener('click', generateModal.bind(this));
     document.getElementById('modal-container')?.appendChild(modal);
   };
 
+  const onKeyDown = (event: KeyboardEvent) => {
+    console.log('asdasd');
+
+    switch (event.key) {
+      case 'd':
+        generateDialog();
+        break;
+      case 's':
+        generateSidebar();
+        break;
+    }
+  };
+
   return html`<uui-modal-container id="modal-container"></uui-modal-container>
-    <uui-button look="primary" @click=${generateDialog}>Add dialog</uui-button>
+    <uui-button look="primary" @click=${generateModal}>Add dialog</uui-button>
     <uui-button look="primary" @click=${generateSidebar}
       >Add sidebar</uui-button
     > `;

@@ -9,13 +9,6 @@ import { property, query } from 'lit/decorators.js';
 export class UUIModalElement extends LitElement {
   static styles = [
     css`
-      :host(.closing),
-      :host(.closing) dialog {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-
       dialog {
         border: none;
         padding: 0;
@@ -51,6 +44,9 @@ export class UUIModalElement extends LitElement {
 
   @query('dialog')
   protected dialog!: HTMLDialogElement;
+
+  @property({ type: Boolean, attribute: 'closing', reflect: true })
+  public closing = false;
 
   private animation!: Animation;
   private _keyframes = [{ opacity: '0' }, { opacity: '1' }];
@@ -94,9 +90,13 @@ export class UUIModalElement extends LitElement {
   protected close(e: Event) {
     e.preventDefault();
     e.stopImmediatePropagation();
-    this.classList.add('closing');
+    this.closing = true;
     this.hideBackdrop();
-    this.dispatchEvent(new CustomEvent('closing', { bubbles: true }));
+    requestAnimationFrame(() => {
+      this.dispatchEvent(
+        new CustomEvent('closing', { bubbles: true, composed: true })
+      );
+    });
 
     setTimeout(() => {
       this.dialog.close();

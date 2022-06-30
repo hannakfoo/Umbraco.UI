@@ -16,7 +16,7 @@ export class UUIModalSidebarElement extends UUIModalElement {
         width: 100%;
         margin: 0;
         left: auto;
-        background-color: #eb9191;
+        background-color: var(--uui-color-surface);
         position: relative;
         max-width: calc(100% - 160px);
         max-height: 100%;
@@ -69,9 +69,6 @@ export class UUIModalSidebarElement extends UUIModalElement {
 
   @property({ type: Number })
   pushDistance = 0;
-
-  @property({ type: Boolean, attribute: 'closing', reflect: true })
-  closing = false;
 
   private _hideTimeout: number | null = null;
   private _animation: Animation | null = null;
@@ -135,7 +132,6 @@ export class UUIModalSidebarElement extends UUIModalElement {
     if (this.closing) return;
 
     this.closing = true;
-
     this.hideBackdrop();
 
     requestAnimationFrame(() => {
