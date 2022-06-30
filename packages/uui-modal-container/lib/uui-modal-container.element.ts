@@ -11,21 +11,32 @@ export class UUIModalContainerElement extends LitElement {
   static styles = [
     css`
       :host {
+        display: block;
+        height: 100%;
+        width: 100%;
+        position: relative;
       }
     `,
   ];
 
   @queryAssignedElements({
-    selector: 'uui-modal:not(.closing)',
+    selector:
+      'uui-modal-dialog:not([closing]), uui-modal-sidebar:not([closing])',
     flatten: true,
   })
   modals?: UUIModalElement[];
+
+  @queryAssignedElements({
+    selector: 'uui-modal-sidebar:not([closing])',
+    flatten: true,
+  })
+  sidebars?: UUIModalElement[];
 
   connectedCallback(): void {
     super.connectedCallback();
 
     this.addEventListener('open', this._onModalOpen);
-    this.addEventListener('closing', this._onModalClose);
+    this.addEventListener('closing', this._onModalClosing);
   }
 
   private _onModalOpen(event: Event) {
@@ -36,9 +47,10 @@ export class UUIModalContainerElement extends LitElement {
     }
   }
 
-  private _onModalClose(event: Event) {
+  private _onModalClosing(event: Event) {
     const modal = event.target as UUIModalElement;
     modal?.toggleAttribute('backdrop', false);
+
     this._onSlotChange(event);
   }
 
@@ -47,8 +59,19 @@ export class UUIModalContainerElement extends LitElement {
 
     this.modals[0]?.toggleAttribute('backdrop', true);
 
-    this.modals.forEach((modal, index) => {
-      if (index === this.modals!.length - 1) {
+    this.sidebars?.forEach((sidebar, i) => {
+      const maxStack = 4;
+      const startPush = this.sidebars!.length - 1 >= maxStack ? 1 : 0;
+      const push =
+        (this.sidebars!.length - 1 - i - Math.max(0, 3 - i)) * startPush;
+      sidebar.setAttribute('data-modal-shrink', Math.min(i, 3).toString());
+      sidebar.setAttribute('data-modal-push', Math.min(push, 5).toString());
+    });
+
+    console.log('Sidebars:', this.sidebars);
+
+    this.modals.forEach((modal, i) => {
+      if (i === this.modals!.length - 1) {
         modal.toggleAttribute('fade', false);
       } else {
         modal.toggleAttribute('fade', true);

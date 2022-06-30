@@ -2,7 +2,8 @@ import '.';
 
 import { Story } from '@storybook/web-components';
 import { html } from 'lit-html';
-import { UUIModalElement } from '@umbraco-ui/uui-modal/lib';
+import { UUIModalDialogElement } from '@umbraco-ui/uui-modal-dialog/lib';
+import { UUIModalSidebarElement } from '@umbraco-ui/uui-modal-sidebar/lib';
 
 export default {
   id: 'uui-modal-container',
@@ -19,7 +20,7 @@ export default {
 
 export const Overview: Story = props => {
   const generateDialog = () => {
-    const modal = new UUIModalElement();
+    const modal = new UUIModalDialogElement();
     modal.headline = 'Headline here';
     modal.innerHTML = `
     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Numquam molestias voluptatibus vero doloribus, quam nesciunt, non porro, rem dolor nostrum soluta adipisci veritatis dignissimos veniam debitis repudiandae possimus maxime dolorem?</p>
@@ -37,8 +38,19 @@ export const Overview: Story = props => {
     });
   };
 
-  return html`<uui-modal-container id="modal-container">
-      <div>Hallo</div>
-    </uui-modal-container>
-    <uui-button @click=${generateDialog}>Add modal</uui-button> `;
+  const generateSidebar = () => {
+    const modal = new UUIModalSidebarElement();
+    modal.innerHTML = `
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Numquam molestias voluptatibus vero doloribus, quam nesciunt, non porro, rem dolor nostrum soluta adipisci veritatis dignissimos veniam debitis repudiandae possimus maxime dolorem?</p>
+    `;
+
+    modal.addEventListener('click', generateSidebar.bind(this));
+    document.getElementById('modal-container')?.appendChild(modal);
+  };
+
+  return html`<uui-modal-container id="modal-container"></uui-modal-container>
+    <uui-button look="primary" @click=${generateDialog}>Add dialog</uui-button>
+    <uui-button look="primary" @click=${generateSidebar}
+      >Add sidebar</uui-button
+    > `;
 };

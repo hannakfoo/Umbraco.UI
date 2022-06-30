@@ -73,3 +73,5 @@ export * from '@umbraco-ui/uui-toggle/lib/index.js';
 
 export * from '@umbraco-ui/uui-modal-container/lib/index.js';
 export * from '@umbraco-ui/uui-modal/lib/index.js';
+export * from '@umbraco-ui/uui-modal-dialog/lib/index.js';
+export * from '@umbraco-ui/uui-modal-sidebar/lib/index.js';

@@ -23,7 +23,7 @@ export class UUIModalElement extends LitElement {
         overflow: visible;
       }
 
-      uui-dialog:after {
+      dialog > *:after {
         content: '';
         display: block;
         position: absolute;
@@ -34,11 +34,11 @@ export class UUIModalElement extends LitElement {
         transition: opacity 250ms linear;
       }
 
-      :host([fade]) uui-dialog:after {
+      :host([fade]) dialog > *:after {
         opacity: 1;
       }
 
-      uui-dialog {
+      dialog > * {
         overflow: hidden;
       }
 
@@ -50,10 +50,7 @@ export class UUIModalElement extends LitElement {
   ];
 
   @query('dialog')
-  dialog!: HTMLDialogElement;
-
-  @property({ type: String })
-  headline = '';
+  protected dialog!: HTMLDialogElement;
 
   private animation!: Animation;
   private _keyframes = [{ opacity: '0' }, { opacity: '1' }];
@@ -94,7 +91,7 @@ export class UUIModalElement extends LitElement {
     this.animation.play();
   }
 
-  private close(e: Event) {
+  protected close(e: Event) {
     e.preventDefault();
     e.stopImmediatePropagation();
     this.classList.add('closing');
@@ -107,19 +104,12 @@ export class UUIModalElement extends LitElement {
     }, 250);
   }
 
+  protected renderContent() {
+    return html``;
+  }
+
   render() {
-    return html`
-      <dialog>
-        <uui-dialog>
-          <uui-dialog-layout headline=${this.headline}>
-            <slot></slot>
-            <uui-button @click=${this.close} label="close" look="secondary"
-              >Close</uui-button
-            >
-          </uui-dialog-layout>
-        </uui-dialog>
-      </dialog>
-    `;
+    return html` <dialog>${this.renderContent()}</dialog> `;
   }
 }
 
