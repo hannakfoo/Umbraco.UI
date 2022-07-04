@@ -1,7 +1,7 @@
 import { defineElement } from '@umbraco-ui/uui-base/lib/registration';
-import { css, html, LitElement } from 'lit';
+import { css, html } from 'lit';
 import { UUIModalElement } from '@umbraco-ui/uui-modal/lib';
-import { property, query } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 
 /**
  * @element uui-modal-sidebar
@@ -22,19 +22,22 @@ export class UUIModalSidebarElement extends UUIModalElement {
         max-height: 100%;
         box-shadow: var(--uui-shadow-depth-3);
         transition: transform 250ms linear;
+
+        width: unset;
+        max-width: unset;
       }
 
       :host([data-modal-shrink='0']) dialog {
-        max-width: calc(100% - 40px);
+        width: calc(100% - 40px);
       }
       :host([data-modal-shrink='1']) dialog {
-        max-width: calc(100% - 80px);
+        width: calc(100% - 80px);
       }
       :host([data-modal-shrink='2']) dialog {
-        max-width: calc(100% - 120px);
+        width: calc(100% - 120px);
       }
       :host([data-modal-shrink='3']) dialog {
-        max-width: calc(100% - 160px);
+        width: calc(100% - 160px);
       }
 
       /* there are two more push values than shrink values because we want to push the element off the screen */
@@ -55,6 +58,20 @@ export class UUIModalSidebarElement extends UUIModalElement {
       }
       :host([data-modal-push='5']) dialog {
         transform: translateX(-200px);
+      }
+
+      /* ---------- SIZES ---------- */
+      :host([data-modal-size='full']) dialog {
+        /* do we need this? */
+      }
+      :host([data-modal-size='large']) dialog {
+        max-width: 1200px;
+      }
+      :host([data-modal-size='medium']) dialog {
+        max-width: 800px;
+      }
+      :host([data-modal-size='small']) dialog {
+        max-width: 400px;
       }
 
       div {
