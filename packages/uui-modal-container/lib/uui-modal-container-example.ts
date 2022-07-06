@@ -1,13 +1,7 @@
 import { defineElement } from '@umbraco-ui/uui-base/lib/registration';
 import { css, html, LitElement, TemplateResult } from 'lit';
-import {
-  query,
-  queryAll,
-  queryAssignedElements,
-  state,
-} from 'lit/decorators.js';
-import { UUIModalElement } from '@umbraco-ui/uui-modal/lib';
-import { UUIModalSidebarElement } from '@umbraco-ui/uui-modal-sidebar/lib';
+import { query, state } from 'lit/decorators.js';
+import { UUIModalSidebarSize } from '@umbraco-ui/uui-modal-sidebar/lib';
 
 /**
  * @element uui-modal-container-example
@@ -21,28 +15,31 @@ export class UUIModalContainerExample extends LitElement {
 
   private addDialog() {
     const element = html`<uui-modal-dialog>
-      <h1>Modal Dialog</h1>
-      <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Unde repellat
-        totam error iure nesciunt aperiam officiis dolores mollitia pariatur
-        autem repudiandae earum, rerum laborum facere quisquam ipsum ea
-        dignissimos. Quo.
-      </p>
-      <div style="margin-top: auto; display: flex">
-        <uui-button look="primary" @click="${this.addDialog}">
-          Add Dialog
-        </uui-button>
-        <uui-button look="primary" @click="${this.addSidebar}">
-          Add Sidebar
-        </uui-button>
-      </div>
+      <uui-dialog>
+        <uui-dialog-layout headline="Modal Dialog">
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Unde
+            repellat totam error iure nesciunt aperiam officiis dolores mollitia
+            pariatur autem repudiandae earum, rerum laborum facere quisquam
+            ipsum ea dignissimos. Quo.
+          </p>
+          <div style="margin-top: auto; display: flex">
+            <uui-button look="primary" @click="${this.addDialog}">
+              Add Dialog
+            </uui-button>
+            <uui-button look="primary" @click="${this.addSidebar}">
+              Add Sidebar
+            </uui-button>
+          </div>
+        </uui-dialog-layout>
+      </uui-dialog>
     </uui-modal-dialog>`;
 
     this.modals = [...this.modals, element];
   }
 
-  private addSidebar(size: string = 'full') {
-    const element = html`<uui-modal-sidebar data-modal-size=${size}>
+  private addSidebar(size: UUIModalSidebarSize = 'full') {
+    const element = html`<uui-modal-sidebar .size=${size}>
       <div style="display: flex; height: 100%; flex-direction: column; ">
         <h1>Modal Sidebar</h1>
         <p>

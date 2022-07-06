@@ -1,6 +1,6 @@
 import { defineElement } from '@umbraco-ui/uui-base/lib/registration';
 import { css, html, LitElement } from 'lit';
-import { queryAll, queryAssignedElements } from 'lit/decorators.js';
+import { queryAssignedElements } from 'lit/decorators.js';
 import { UUIModalElement } from '@umbraco-ui/uui-modal/lib';
 import { UUIModalSidebarElement } from '@umbraco-ui/uui-modal-sidebar/lib';
 
@@ -37,7 +37,7 @@ export class UUIModalContainerElement extends LitElement {
     super.connectedCallback();
 
     this.addEventListener('open', this._onModalOpen);
-    this.addEventListener('closing', this._onModalClosing);
+    this.addEventListener('close-start', this._onModalClosing);
   }
 
   private _onModalOpen(event: Event) {
@@ -52,10 +52,10 @@ export class UUIModalContainerElement extends LitElement {
     const modal = event.target as UUIModalElement;
     modal?.toggleAttribute('backdrop', false);
 
-    this._onSlotChange(event);
+    this._onSlotChange();
   }
 
-  private _onSlotChange(event: Event): void {
+  private _onSlotChange(): void {
     if (!this.modals) return;
 
     this.modals[0]?.toggleAttribute('backdrop', true);

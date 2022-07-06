@@ -31,10 +31,6 @@ export class UUIModalElement extends LitElement {
         opacity: 1;
       }
 
-      dialog > * {
-        overflow: hidden;
-      }
-
       dialog::backdrop {
         opacity: 0;
         background-color: rgba(0, 0, 0, 0.25);
@@ -87,21 +83,44 @@ export class UUIModalElement extends LitElement {
     this.animation.play();
   }
 
-  protected close(e: Event) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
+  public close(e?: Event) {
+    if (e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+    if (this.closing) return;
+
+    const event = new CustomEvent('close', {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+    });
+    this.dispatchEvent(event);
+    if (event.defaultPrevented) return;
+
     this.closing = true;
     this.hideBackdrop();
+
     requestAnimationFrame(() => {
       this.dispatchEvent(
-        new CustomEvent('closing', { bubbles: true, composed: true })
+        new CustomEvent('close-start', { bubbles: true, composed: true })
       );
+      this.animateClose();
     });
+  }
 
+  protected animateClose() {
     setTimeout(() => {
-      this.dialog.close();
-      this.remove();
+      this.finalizeClose();
     }, 250);
+  }
+
+  protected finalizeClose() {
+    this.dialog.close();
+    this.dispatchEvent(
+      new CustomEvent('close-end', { bubbles: true, composed: true })
+    );
+    this.remove();
   }
 
   protected renderContent() {

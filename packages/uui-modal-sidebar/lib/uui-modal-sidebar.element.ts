@@ -3,6 +3,8 @@ import { css, html } from 'lit';
 import { UUIModalElement } from '@umbraco-ui/uui-modal/lib';
 import { property } from 'lit/decorators.js';
 
+export type UUIModalSidebarSize = 'small' | 'medium' | 'large' | 'full';
+
 /**
  * @element uui-modal-sidebar
  */
@@ -61,16 +63,15 @@ export class UUIModalSidebarElement extends UUIModalElement {
       }
 
       /* ---------- SIZES ---------- */
-      :host([data-modal-size='full']) dialog {
-        /* do we need this? */
-      }
-      :host([data-modal-size='large']) dialog {
+      /* :host([size='full']) dialog {
+      } */
+      :host([size='large']) dialog {
         max-width: 1200px;
       }
-      :host([data-modal-size='medium']) dialog {
+      :host([size='medium']) dialog {
         max-width: 800px;
       }
-      :host([data-modal-size='small']) dialog {
+      :host([size='small']) dialog {
         max-width: 400px;
       }
 
@@ -78,14 +79,13 @@ export class UUIModalSidebarElement extends UUIModalElement {
         display: block;
         height: 100%;
         width: 100%;
-        padding: 32px;
         box-sizing: border-box;
       }
     `,
   ];
 
-  @property({ type: Number })
-  pushDistance = 0;
+  @property({ type: String, reflect: true })
+  size: UUIModalSidebarSize = 'full';
 
   private _hideTimeout: number | null = null;
   private _animation: Animation | null = null;
@@ -142,31 +142,15 @@ export class UUIModalSidebarElement extends UUIModalElement {
     });
   }
 
-  protected close(e: Event) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-
-    if (this.closing) return;
-
-    this.closing = true;
-    this.hideBackdrop();
-
-    requestAnimationFrame(() => {
-      this.dispatchEvent(
-        new CustomEvent('closing', { bubbles: true, composed: true })
-      );
-    });
-
+  //Override timeout to use animation instead:
+  protected animateClose() {
     this.push('0', '100vw').then(() => {
-      this.dialog.close();
-      this.remove();
+      this.finalizeClose();
     });
   }
 
   renderContent() {
-    return html`<div>
-      <slot></slot>
-    </div>`;
+    return html`<div><slot></slot></div>`;
   }
 }
 

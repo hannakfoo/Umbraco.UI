@@ -1,6 +1,5 @@
 import { defineElement } from '@umbraco-ui/uui-base/lib/registration';
-import { css, html, LitElement } from 'lit';
-import { property, query } from 'lit/decorators.js';
+import { css, html } from 'lit';
 import { UUIModalElement } from '@umbraco-ui/uui-modal/lib';
 
 /**
@@ -20,18 +19,8 @@ export class UUIModalDialogElement extends UUIModalElement {
     `,
   ];
 
-  @property({ type: String })
-  headline = '';
-
   renderContent() {
-    return html` <uui-dialog>
-      <uui-dialog-layout headline=${this.headline}>
-        <slot></slot>
-        <uui-button @click=${this.close} label="close" look="secondary"
-          >Close</uui-button
-        >
-      </uui-dialog-layout>
-    </uui-dialog>`;
+    return html`<div><slot></slot></div>`;
   }
 }
 
