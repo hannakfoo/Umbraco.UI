@@ -2,6 +2,10 @@ import { Story } from '@storybook/web-components';
 import { html } from 'lit-html';
 import { ArrayOfUmbracoWords } from '../../../storyhelpers/UmbracoWordGenerator';
 import './index';
+import '@umbraco-ui/uui-icon/lib';
+import '@umbraco-ui/uui-button/lib';
+import '@umbraco-ui/uui-action-bar/lib';
+import '@umbraco-ui/uui-icon-registry-essential/lib';
 
 export default {
   id: 'uui-ref-node-data-type',
@@ -48,14 +52,16 @@ AAAOverview.parameters = {
 };
 
 export const CustomIcon: Story = () => html`
-  <div style="max-width: 420px;">
-    <uui-ref-node-data-type name="Color Picker" alias="Umbraco.ColorPicker">
-      <uui-icon slot="icon" name="colorpicker"></uui-icon>
-      <uui-action-bar slot="actions">
-        <uui-button label="Remove">Remove</uui-button>
-      </uui-action-bar>
-    </uui-ref-node-data-type>
-  </div>
+  <uui-icon-registry-essential>
+    <div style="max-width: 420px;">
+      <uui-ref-node-data-type name="Color Picker" alias="Umbraco.ColorPicker">
+        <uui-icon slot="icon" name="colorpicker"></uui-icon>
+        <uui-action-bar slot="actions">
+          <uui-button label="Remove">Remove</uui-button>
+        </uui-action-bar>
+      </uui-ref-node-data-type>
+    </div>
+  </uui-icon-registry-essential>
 `;
 
 CustomIcon.parameters = {

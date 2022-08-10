@@ -2,6 +2,9 @@ import { Story } from '@storybook/web-components';
 import { html } from 'lit-html';
 import { ArrayOfUmbracoWords } from '../../../storyhelpers/UmbracoWordGenerator';
 import './index';
+import '@umbraco-ui/uui-icon/lib';
+import '@umbraco-ui/uui-button/lib';
+import '@umbraco-ui/uui-action-bar/lib';
 
 export default {
   title: 'Displays/Reference List',
