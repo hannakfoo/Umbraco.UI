@@ -1,5 +1,7 @@
 import '.';
-
+import '@umbraco-ui/uui-icon/lib';
+import '@umbraco-ui/uui-toast-notification-layout/lib';
+import '@umbraco-ui/uui-button/lib';
 import { Story } from '@storybook/web-components';
 import { html } from 'lit-html';
 
@@ -46,7 +48,9 @@ export const ErrorStyle: Story = props => html`<uui-toast-notification
   .color=${props.color}>
   <uui-toast-notification-layout .headline=${props.headline}>
     ${props.slot}
-    <uui-button slot="actions" look="primary" color="danger">Retry</uui-button>
+    <uui-button label="retry" slot="actions" look="primary" color="danger"
+      >Retry</uui-button
+    >
   </uui-toast-notification-layout>
 </uui-toast-notification>`;
 ErrorStyle.args = {
@@ -73,7 +77,11 @@ export const PositiveStyle: Story = props => html`<uui-toast-notification
   .color=${props.color}>
   <uui-toast-notification-layout .headline=${props.headline}>
     ${props.slot}
-    <uui-button slot="actions" look="primary" .color=${props.color}
+    <uui-button
+      label="view-in-browser"
+      slot="actions"
+      look="primary"
+      .color=${props.color}
       >View in browser</uui-button
     >
   </uui-toast-notification-layout>

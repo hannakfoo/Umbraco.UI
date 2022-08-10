@@ -1,4 +1,8 @@
 import '.';
+import '@umbraco-ui/uui-action-bar/lib';
+import '@umbraco-ui/uui-button/lib';
+import '@umbraco-ui/uui-icon/lib';
+import '@umbraco-ui/uui-icon-registry-essential/lib';
 
 import { Story } from '@storybook/web-components';
 import { html } from 'lit-html';
@@ -33,22 +37,26 @@ Overview.args = {
 };
 
 export const SlottedContent: Story = props =>
-  html`<uui-toast-notification-layout>
-    <h3 slot="headline">${props['headline slot']}</h3>
-    ${props.slot}
-    <div slot="actions">
-      <uui-icon-registry-essential>
-        <uui-action-bar>
-          <uui-button look="primary"
-            ><uui-icon name="add"></uui-icon
-          ></uui-button>
-          <uui-button look="outline"
-            ><uui-icon name="delete"></uui-icon
-          ></uui-button>
-        </uui-action-bar>
-      </uui-icon-registry-essential>
-    </div>
-  </uui-toast-notification-layout>`;
+  html`
+    <uui-icon-registry-essential>
+      <uui-toast-notification-layout>
+        <h3 slot="headline">${props['headline slot']}</h3>
+        ${props.slot}
+        <div slot="actions">
+          <uui-icon-registry-essential>
+            <uui-action-bar>
+              <uui-button label="add" look="primary"
+                ><uui-icon name="add"></uui-icon
+              ></uui-button>
+              <uui-button label="delete" look="outline"
+                ><uui-icon name="delete"></uui-icon
+              ></uui-button>
+            </uui-action-bar>
+          </uui-icon-registry-essential>
+        </div>
+      </uui-toast-notification-layout>
+    </uui-icon-registry-essential>
+  `;
 
 SlottedContent.args = {
   'headline slot': 'Headline',
