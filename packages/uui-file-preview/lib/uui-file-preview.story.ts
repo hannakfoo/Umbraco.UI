@@ -3,6 +3,9 @@ import '@umbraco-ui/uui-action-bar/lib';
 import '@umbraco-ui/uui-button/lib';
 import '@umbraco-ui/uui-icon-registry-essential/lib';
 import '@umbraco-ui/uui-icon/lib';
+import '@umbraco-ui/uui-symbol-file-thumbnail/lib';
+import '@umbraco-ui/uui-symbol-folder/lib';
+import '@umbraco-ui/uui-symbol-file/lib';
 
 import { Story } from '@storybook/web-components';
 import { html } from 'lit-html';
@@ -27,7 +30,7 @@ export const AAAOverview: Story = () => {
     <uui-icon-registry-essential>
       <uui-file-preview id="filePreview">
         <uui-action-bar slot="actions">
-          <uui-button color="danger">
+          <uui-button label="delete" color="danger">
             <uui-icon name="delete"></uui-icon>
           </uui-button>
         </uui-action-bar>
@@ -81,7 +84,7 @@ export const Image: Story = () => {
     <uui-icon-registry-essential>
       <uui-file-preview id="imagePreview">
         <uui-action-bar slot="actions">
-          <uui-button color="danger">
+          <uui-button label="delete" color="danger">
             <uui-icon name="delete"></uui-icon>
           </uui-button>
         </uui-action-bar>
