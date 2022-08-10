@@ -4,7 +4,7 @@ import { playwrightLauncher } from '@web/test-runner-playwright';
 export default {
   nodeResolve: true,
   files: 'packages/**/*.test.ts',
-  plugins: [esbuildPlugin({ ts: true, target: 'auto' })],
+  plugins: [esbuildPlugin({ ts: true, target: 'auto-always' })],
   browsers: [
     playwrightLauncher({ product: 'chromium' }),
     playwrightLauncher({ product: 'firefox' }),
@@ -12,6 +12,9 @@ export default {
   ],
   testRunnerHtml: testFramework =>
     `<html>
+      <head>
+        <link rel="stylesheet" href="/packages/uui-css/dist/uui-css.css">
+      </head>
       <body>
         <script type="module" src="${testFramework}"></script>
         <script type="module">

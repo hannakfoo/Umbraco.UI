@@ -12,18 +12,11 @@ import {
 import { css, html, LitElement } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { InterfaceColor, InterfaceLook } from '@umbraco-ui/uui-base/lib/types';
 
 export type UUIButtonState = undefined | 'waiting' | 'success' | 'failed';
 
 export type UUIButtonType = 'submit' | 'button' | 'reset';
-
-export type Look =
-  | 'default'
-  | 'primary'
-  | 'secondary'
-  | 'outline'
-  | 'placeholder';
-export type Color = 'default' | 'positive' | 'warning' | 'danger';
 
 /**
  *  @element uui-button
@@ -61,7 +54,7 @@ export class UUIButtonElement extends FormControlMixin(
         --uui-button-padding-top-factor: 1;
         --uui-button-padding-bottom-factor: 1;
 
-        height: var(--uui-button-height, auto);
+        min-height: var(--uui-button-height, var(--uui-size-11));
         max-height: 100%;
         cursor: pointer;
 
@@ -74,6 +67,8 @@ export class UUIButtonElement extends FormControlMixin(
       :host([compact]) {
         --uui-button-padding-left-factor: 1;
         --uui-button-padding-right-factor: 1;
+        --uui-button-padding-top-factor: 0;
+        --uui-button-padding-bottom-factor: 0;
       }
 
       .label {
@@ -98,7 +93,6 @@ export class UUIButtonElement extends FormControlMixin(
       }
 
       #button {
-        height: 100%;
         width: 100%;
         background-color: transparent;
         color: inherit;
@@ -109,12 +103,15 @@ export class UUIButtonElement extends FormControlMixin(
         text-align: inherit;
         border: none;
         cursor: inherit;
-        display: block;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
 
         /* for anchor tag: */
         text-decoration: none;
         color: currentColor;
-        line-height: normal;
+        line-height: inherit;
 
         border-width: var(--uui-button-border-width, 1px);
         border-style: solid;
@@ -124,11 +121,11 @@ export class UUIButtonElement extends FormControlMixin(
         );
         cursor: pointer;
 
-        padding: calc(calc(8 / 15 * 1em) * var(--uui-button-padding-top-factor))
+        padding: calc(var(--uui-size-2) * var(--uui-button-padding-top-factor))
           calc(var(--uui-size-2) * var(--uui-button-padding-right-factor))
-          calc(calc(8 / 15 * 1em) * var(--uui-button-padding-bottom-factor))
+          calc(var(--uui-size-2) * var(--uui-button-padding-bottom-factor))
           calc(var(--uui-size-2) * var(--uui-button-padding-left-factor));
-        vertical-align: middle;
+
         box-shadow: none;
       }
       button[disabled]:active,
@@ -375,7 +372,7 @@ export class UUIButtonElement extends FormControlMixin(
    * @default "default"
    */
   @property({ reflect: true })
-  look: Look = 'default';
+  look: InterfaceLook = 'default';
 
   /**
    * Changes the look of the button to one of the predefined, symbolic looks. For example - set this to positive if you want nice, green "confirm" button.
@@ -384,7 +381,7 @@ export class UUIButtonElement extends FormControlMixin(
    * @default "default"
    */
   @property({ reflect: true })
-  color: Color = 'default';
+  color: InterfaceColor = 'default';
 
   /**
    * Makes the left and right padding of the button narrower.
