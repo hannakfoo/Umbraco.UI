@@ -53,14 +53,17 @@ export const AAAOverview: Story = props => html`
 
 AAAOverview.storyName = 'Overview';
 
-export const MixedLooksAndColors = () => html`
+export const MixedLooksAndColors: Story = () => html`
   ${colors.map(
     color => html`
       <div style="margin-bottom: 32px">
         <h4>${color}</h4>
         <uui-button-group>
           ${looks.map(
-            look => html`<uui-button color=${color as any} look=${look as any}>
+            look => html`<uui-button
+              label="button"
+              color=${color as any}
+              look=${look as any}>
               ${look}
             </uui-button>`
           )}
@@ -71,7 +74,6 @@ export const MixedLooksAndColors = () => html`
 `;
 
 MixedLooksAndColors.parameters = {
-  controls: { disable: true },
   docs: {
     source: {
       code: `
@@ -85,7 +87,7 @@ MixedLooksAndColors.parameters = {
   },
 };
 
-export const LooksAndColors = () => html`
+export const LooksAndColors: Story = () => html`
   ${colors.map(
     color => html`
       <div style="margin-bottom: 32px; display: block">
@@ -108,8 +110,9 @@ export const LooksAndColors = () => html`
               <uui-button
                 label="Button 4"
                 color=${color as any}
-                look=${look as any}></uui-button> </uui-button-group
-            ><br />
+                look=${look as any}></uui-button>
+            </uui-button-group>
+            <br />
           `
         )}
       </div>

@@ -1,6 +1,8 @@
 import '.';
 import '@umbraco-ui/uui-badge/lib';
 import '@umbraco-ui/uui-icon/lib';
+import '@umbraco-ui/uui-loader-circle/lib';
+import '@umbraco-ui/uui-icon-registry-essential/lib';
 
 import { Meta, Story } from '@storybook/web-components';
 import { html } from 'lit-html';
