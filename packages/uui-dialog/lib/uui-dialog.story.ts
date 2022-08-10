@@ -19,8 +19,8 @@ const Template: Story = () => html`
         Keep actions concrete, if asking a question in headline make sure to
         have actions that answers it.
       </p>
-      <uui-button slot="actions">Cancel</uui-button>
-      <uui-button slot="actions" look="primary" color="positive"
+      <uui-button label="cancel" slot="actions">Cancel</uui-button>
+      <uui-button label="action" slot="actions" look="primary" color="positive"
         >Action</uui-button
       >
     </uui-dialog-layout>
@@ -37,8 +37,8 @@ export const ConfirmDialogPositive: Story = () => html`
         Publish <b>This example</b> and all content items underneath and thereby
         making their content publicly available.
       </p>
-      <uui-button slot="actions">Cancel</uui-button>
-      <uui-button slot="actions" look="primary" color="positive"
+      <uui-button label="cancel" slot="actions">Cancel</uui-button>
+      <uui-button label="publish" slot="actions" look="primary" color="positive"
         >Publish</uui-button
       >
     </uui-dialog-layout>
@@ -49,8 +49,8 @@ export const ConfirmDialogDanger: Story = () => html`
   <uui-dialog>
     <uui-dialog-layout headline="Delete">
       <p>Delete <b>This example</b> and all items underneath.</p>
-      <uui-button slot="actions">Cancel</uui-button>
-      <uui-button slot="actions" look="primary" color="danger"
+      <uui-button label="cancel" slot="actions">Cancel</uui-button>
+      <uui-button label="delete" slot="actions" look="primary" color="danger"
         >Delete</uui-button
       >
     </uui-dialog-layout>
@@ -65,8 +65,8 @@ export const HeadlineSlot: Story = () => html`
           <uui-icon name="code"></uui-icon> With Icon
         </span>
         <p>This is using a <b>slot</b> for the headline.</p>
-        <uui-button slot="actions">Cancel</uui-button>
-        <uui-button slot="actions" look="primary" color="danger"
+        <uui-button label="cancel" slot="actions">Cancel</uui-button>
+        <uui-button label="delete" slot="actions" look="primary" color="danger"
           >Delete</uui-button
         >
       </uui-dialog-layout>

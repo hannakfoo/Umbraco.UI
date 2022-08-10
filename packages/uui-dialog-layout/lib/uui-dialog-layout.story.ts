@@ -23,8 +23,8 @@ export const Overview: Story = () =>
       component. This is used as a direct child of the dialog element component.
       Please view Dialog stories for examples.
     </p>
-    <uui-button slot="actions">Cancel</uui-button>
-    <uui-button slot="actions" look="primary" color="positive"
+    <uui-button label="cancel" slot="actions">Cancel</uui-button>
+    <uui-button label="action" slot="actions" look="primary" color="positive"
       >Action</uui-button
     >
   </uui-dialog-layout>`;
