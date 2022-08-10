@@ -1,6 +1,7 @@
 import { Story } from '@storybook/web-components';
 import { html } from 'lit-html';
 import './index';
+import '@umbraco-ui/uui-avatar/lib';
 
 export default {
   title: 'Displays/Cards/User',

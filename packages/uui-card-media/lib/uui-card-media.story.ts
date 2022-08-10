@@ -3,6 +3,10 @@ import '.';
 import { Story } from '@storybook/web-components';
 import { html } from 'lit-html';
 
+import '@umbraco-ui/uui-tag/lib';
+import '@umbraco-ui/uui-symbol-file/lib';
+import '@umbraco-ui/uui-symbol-folder/lib';
+
 export default {
   id: 'uui-card-media',
   title: 'Displays/Cards/Media',

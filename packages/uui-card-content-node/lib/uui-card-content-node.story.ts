@@ -4,6 +4,10 @@ import '@umbraco-ui/uui-icon-registry-essential/lib';
 import { Story } from '@storybook/web-components';
 import { html } from 'lit-html';
 
+import '@umbraco-ui/uui-tag/lib';
+import '@umbraco-ui/uui-action-bar/lib';
+import '@umbraco-ui/uui-button/lib';
+
 export default {
   title: 'Displays/Cards/Content Node',
   component: 'uui-card-content-node',
