@@ -1,4 +1,5 @@
 import '.';
+import '@umbraco-ui/uui-button/lib';
 
 import { Story } from '@storybook/web-components';
 import { html } from 'lit-html';
@@ -47,7 +48,7 @@ export default {
 </script>
 
 <uui-popover placement="bottom-start" id="myPopover">
-  <uui-button
+  <uui-button label="button"
     slot="trigger"
     look="primary"
     label="Open dropdown"
@@ -99,6 +100,7 @@ export const AAAOverview: Story = props => {
           .open=${props.open}
           @keydown=${onKeyDown}>
           <uui-button
+            label="open-dropdown"
             look="primary"
             @click=${handleClick}
             @keydown=${() => ''}
@@ -116,7 +118,7 @@ export const AAAOverview: Story = props => {
             <p>
               This can contain any content: buttons, lists, images and so on.
             </p>
-            <uui-button look="primary">Button</uui-button>
+            <uui-button label="button" look="primary">Button</uui-button>
           </div>
         </uui-popover>
       </div>
@@ -195,6 +197,7 @@ export const Nested: Story = props => {
     @focusout=${() => closePopover(id)}
     @keydown=${(e: KeyboardEvent) => onkeydown(e, id)}>
     <uui-button
+      label="click-me"
       slot="trigger"
       @click=${() => togglePopover(id)}
       style="--uui-button-border-radius: 0; width: 100%; z-index: 1"
@@ -229,6 +232,7 @@ export const Nested: Story = props => {
       .placement=${props.placement}
       .open=${props.open}>
       <uui-button
+        label="open-dropdown"
         look="secondary"
         @click=${() => togglePopover('#popover')}
         slot="trigger"
