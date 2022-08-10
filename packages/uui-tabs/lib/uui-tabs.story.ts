@@ -23,9 +23,9 @@ export default {
     docs: {
       source: {
         code: html`<uui-tab-group>
-          <uui-tab>Tab A</uui-tab>
-          <uui-tab>Tab B</uui-tab>
-          <uui-tab>Tab C</uui-tab>
+          <uui-tab label="tab-a">Tab A</uui-tab>
+          <uui-tab label="tab-b">Tab B</uui-tab>
+          <uui-tab label="tab-c">Tab C</uui-tab>
         </uui-tab-group>`.strings,
       },
     },
@@ -42,9 +42,9 @@ export const AAAOverview: Story = props => html`
     --uui-tab-background: ${props['--uui-tab-background']};
     --uui-tab-divider: ${props['--uui-tab-divider']};
     ${props.inlineStyles}">
-    <uui-tab active> Content </uui-tab>
-    <uui-tab ?disabled=${props.disabled}> Packages </uui-tab>
-    <uui-tab> Media </uui-tab>
+    <uui-tab label="content" active> Content </uui-tab>
+    <uui-tab label="packages" ?disabled=${props.disabled}> Packages </uui-tab>
+    <uui-tab label="media"> Media </uui-tab>
   </uui-tab-group>
 `;
 AAAOverview.storyName = 'Overview';
@@ -61,9 +61,9 @@ export const WithBorders: Story = () => html`
     --uui-tab-divider: var(--uui-color-divider-standalone);
     ">
     <uui-tab-group>
-      <uui-tab> Content </uui-tab>
-      <uui-tab> Packages </uui-tab>
-      <uui-tab active> Media </uui-tab>
+      <uui-tab label="content"> Content </uui-tab>
+      <uui-tab label="packages"> Packages </uui-tab>
+      <uui-tab label="media" active> Media </uui-tab>
     </uui-tab-group>
   </div>
 `;
@@ -80,9 +80,9 @@ export const Navbar: Story = () => html`
     --uui-tab-background: var(--uui-color-default);
     ">
     <uui-tab-group>
-      <uui-tab>Content</uui-tab>
-      <uui-tab active>Packages</uui-tab>
-      <uui-tab>Media</uui-tab>
+      <uui-tab label="content">Content</uui-tab>
+      <uui-tab label="packages" active>Packages</uui-tab>
+      <uui-tab label="media">Media</uui-tab>
     </uui-tab-group>
   </div>
 `;
@@ -95,15 +95,15 @@ export const WithIcons: Story = props => html`
       height: 70px;
       font-size: 12px;
       ${props.inlineStyles}">
-      <uui-tab>
+      <uui-tab label="content">
         <uui-icon slot="icon" name="document"></uui-icon>
         Content
       </uui-tab>
-      <uui-tab active>
+      <uui-tab label="packages" active>
         <uui-icon slot="icon" name="settings"></uui-icon>
         Packages
       </uui-tab>
-      <uui-tab>
+      <uui-tab label="media">
         <uui-icon slot="icon" name="picture"></uui-icon>
         Media
       </uui-tab>
