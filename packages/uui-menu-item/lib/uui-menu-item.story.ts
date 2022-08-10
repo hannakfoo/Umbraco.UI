@@ -1,5 +1,7 @@
 import '.';
 import '@umbraco-ui/uui-icon-registry-essential/lib';
+import '@umbraco-ui/uui-symbol-expand/lib';
+import '@umbraco-ui/uui-loader-bar/lib';
 
 import { Story } from '@storybook/web-components';
 import { html } from 'lit-html';
