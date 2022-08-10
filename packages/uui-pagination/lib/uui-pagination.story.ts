@@ -3,6 +3,9 @@ import '.';
 import { Story } from '@storybook/web-components';
 import { html } from 'lit-html';
 
+import '@umbraco-ui/uui-button/lib';
+import '@umbraco-ui/uui-button-group/lib';
+
 export default {
   id: 'uui-pagination',
   title: 'Buttons/Pagination',
