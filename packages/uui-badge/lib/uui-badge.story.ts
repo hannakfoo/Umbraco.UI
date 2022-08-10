@@ -3,6 +3,9 @@ import '.';
 import { Story } from '@storybook/web-components';
 import { html } from 'lit';
 
+import '@umbraco-ui/uui-icon-registry-essential/lib';
+import '@umbraco-ui/uui-button/lib';
+
 export default {
   title: 'Displays/Badge',
   component: 'uui-badge',
